@@ -1,27 +1,33 @@
-import { Box, Button, Typography } from '@mui/material';
-import React, { useContext } from 'react';
+import { Box, Typography } from '@mui/material';
+import React, { useContext, useState } from 'react';
 import { DojoContext } from '../contexts/dojoContext';
+import { LoadingButton } from '@mui/lab'
 
 function AddPiece(props) {
   const { position, piece, addPiece } = props
   const dojo = useContext(DojoContext)
+  const [submitting, setSubmitting] = useState(false)
 
   const submit = async () => {
+    setSubmitting(true)
+
     const res = await dojo.executeTx("blobert_puzzle_v::systems::actions::actions", "add_piece", [position, Number(piece)])
 
     if (res) {
       addPiece(position, piece);
     }
+
+    setSubmitting(false)
   }
 
   return (
     <Box sx={styles.container}>
 
-      <Button variant='contained' color='success' sx={{ width: '200px' }} onClick={submit}>
+      <LoadingButton variant='contained' color='success' sx={{ width: '200px' }} onClick={submit} loading={submitting}>
         <Typography color='white' sx={{ fontSize: '16px' }}>
           Submit Piece
         </Typography>
-      </Button>
+      </LoadingButton>
 
     </Box>
   )

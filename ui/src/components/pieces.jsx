@@ -7,7 +7,7 @@ import MyLocationIcon from '@mui/icons-material/MyLocation';
 import { getBloberts } from '../api';
 
 function Pieces(props) {
-  const { address, piece, selectPiece, remove, removePiece, canvas } = props
+  const { setTmpPiece, address, piece, selectPiece, remove, removePiece, canvas } = props
 
   const [loading, setLoading] = useState(true)
   const [tokenIds, setTokenIds] = useState([])
@@ -29,6 +29,8 @@ function Pieces(props) {
   }
 
   const _selectPiece = (tokenId, placed) => {
+    setTmpPiece()
+
     if (placed) {
       selectPiece()
 

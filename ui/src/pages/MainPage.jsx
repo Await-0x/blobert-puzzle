@@ -37,6 +37,9 @@ function MainPage(props) {
       ...prev,
       [position]: piece
     }))
+
+    selectPiece()
+    selectPosition()
   }
 
   const removePieceFromCanvas = (position) => {
@@ -45,13 +48,19 @@ function MainPage(props) {
     delete copy[position]
 
     setCanvas(copy)
+    selectPiece()
+    selectPosition()
+    setRemove()
   }
 
   return <Box>
     {canvasLoading && <CircularProgress sx={{ position: 'fixed', left: '45%', top: '20%' }} size={'100px'} />}
     {!canvasLoading && <Canvas tmpPiece={position} setTmpPiece={selectPosition} piece={piece} pieces={canvas} />}
 
-    {address && <Pieces address={address} piece={piece} selectPiece={selectPiece} remove={remove} removePiece={setRemove} canvas={canvas} />}
+    {address && <Pieces
+      setTmpPiece={selectPosition} address={address} piece={piece}
+      selectPiece={selectPiece} remove={remove} removePiece={setRemove} canvas={canvas}
+    />}
 
     {position >= 0 && <AddPiece piece={piece} position={position} addPiece={addPieceToCanvas} />}
     {remove >= 0 && <RemovePiece piece={remove} canvas={canvas} removePiece={removePieceFromCanvas} />}

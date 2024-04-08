@@ -38,6 +38,7 @@ export const DojoProvider = ({ children, showConnectWallet }) => {
         return
       }
 
+      enqueueSnackbar(system === 'add_piece' ? 'Piece added' : 'Piece removed', { variant: 'success', anchorOrigin: { vertical: 'bottom', horizontal: 'right' } })
       return true
     } catch (ex) {
       console.log(ex)

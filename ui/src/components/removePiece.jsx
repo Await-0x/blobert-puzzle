@@ -1,29 +1,36 @@
 import { Box, Button, Typography } from '@mui/material';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { DojoContext } from '../contexts/dojoContext';
+import { LoadingButton } from '@mui/lab';
 
 function RemovePiece(props) {
-  const { piece, canvas, removePieceFromCanvas } = props
+  const { piece, canvas, removePiece } = props
+
+  const [removing, setRemoving] = useState(false)
   const dojo = useContext(DojoContext)
 
   const submit = async () => {
+    setRemoving(true)
+
     let position = Object.keys(canvas).find(key => canvas[key] === piece);
 
     let res = await dojo.executeTx("blobert_puzzle_v::systems::actions::actions", "remove_piece", [position])
 
     if (res) {
-      removePieceFromCanvas(position)
+      removePiece(position)
     }
+
+    setRemoving(false)
   }
 
   return (
     <Box sx={styles.container}>
 
-      <Button variant='contained' color='error' sx={{ width: '200px' }} onClick={submit}>
+      <LoadingButton loading={removing} variant='contained' color='error' sx={{ width: '200px' }} onClick={submit}>
         <Typography color='white' sx={{ fontSize: '16px' }}>
           Remove Piece
         </Typography>
-      </Button>
+      </LoadingButton>
 
     </Box>
   )

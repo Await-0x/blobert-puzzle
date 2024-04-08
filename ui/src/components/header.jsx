@@ -1,25 +1,13 @@
-import PersonIcon from '@mui/icons-material/Person';
 import { Box, Button, Typography } from '@mui/material';
 import { useAccount } from "@starknet-react/core";
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ellipseAddress } from '../helpers/utilities';
 import ConnectWallet from './header/connectWallet';
-import { DojoContext } from '../contexts/dojoContext';
 
 function Header(props) {
   const { connectWallet, showConnectWallet } = props
   const { address } = useAccount()
   const [accountDialog, openAccountDialog] = useState(false)
-  const dojo = useContext(DojoContext)
-
-  const submit = async () => {
-    await dojo.executeTx("blobert_puzzle_v::systems::actions::actions", "initialize_puzzle", ["0x00539f522b29ae9251dbf7443c7a950cf260372e69efab3710a11bf17a9599f1"])
-  }
-
-  const remove = async () => {
-    await dojo.executeTx("blobert_puzzle_v::systems::actions::actions", "remove_piece", ['5'])
-  }
-
 
   const [anchorEl, setAnchorEl] = useState(null);
 
